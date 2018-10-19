@@ -1,0 +1,18 @@
+{
+	"id": "3c6c8d2c-be21-4b3b-9534-8384a2f3157e",
+	"name": "API test",
+	"values": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000/api",
+			"description": {
+				"content": "Test server url",
+				"type": "text/plain"
+			},
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2018-10-16T21:30:15.368Z",
+	"_postman_exported_using": "Postman/6.4.2"
+}

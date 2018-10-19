@@ -1,0 +1,1697 @@
+{
+	"info": {
+		"_postman_id": "6d476894-7fc6-4075-966b-e114497b5c23",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Users initial test of route",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e77ccb4-2fe2-47bc-99f6-9800ef15b885",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['msg']);",
+									"});",
+									"",
+									"pm.test(\"Test message ok\", function () {",
+									"    pm.expect(jsonData.msg).to.eql(\"Users works\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/test",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"test"
+							]
+						},
+						"description": "Go to api/users/test\nshould return\n{ msg: \"Users works!\" }"
+					},
+					"response": []
+				},
+				{
+					"name": "Register User no data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['name', 'email', 'password', 'password2']);",
+									"});",
+									"",
+									"pm.test(\"Name error message ok\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Name field is required\");",
+									"});",
+									"",
+									"pm.test(\"Email rror message ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"Email is invalid\");",
+									"});",
+									"",
+									"pm.test(\"Password error message ok\", function () {",
+									"    pm.expect(jsonData.password).to.eql(\"Password must be at least 6 characters. No more than 30.\");",
+									"});",
+									"",
+									"pm.test(\"Password2 error message ok\", function () {",
+									"    pm.expect(jsonData.password2).to.eql(\"Confirm Password field is required\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User name too short",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['name']);",
+									"});",
+									"",
+									"pm.test(\"Name too short error message ok\", function () {",
+									"    var expected = {",
+									"        name: \"Name must be between 2 and 30 characters\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "x",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpassword123",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "testpassword123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User name too long",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['name']);",
+									"});",
+									"",
+									"pm.test(\"Name too long error message ok\", function () {",
+									"    var expected = {",
+									"        name: \"Name must be between 2 and 30 characters\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "This is a very long user name more than 30 characters",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpassword123",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "testpassword123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User invalid email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['email']);",
+									"});",
+									"",
+									"pm.test(\"Email invalid error message ok\", function () {",
+									"    var expected = {",
+									"    \"email\": \"Email is invalid\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin User",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin.usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testpassword123",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "testpassword123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User password short",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['password']);",
+									"});",
+									"",
+									"pm.test(\"Password short error message ok\", function () {",
+									"    var expected = {",
+									"    \"password\": \"Password must be at least 6 characters. No more than 30.\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin User",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User password long",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['password']);",
+									"});",
+									"",
+									"pm.test(\"Password short error message ok\", function () {",
+									"",
+									"    var expected = {",
+									"    \"password\": \"Password must be at least 6 characters. No more than 30.\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin User",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234567890123456789012345678901",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "1234567890123456789012345678901",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User password mismatch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['password2']);",
+									"});",
+									"",
+									"pm.test(\"Password short error message ok\", function () {",
+									"    var expected = {",
+									"    \"password2\": \"Passwords must match\"",
+									"    }",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin User",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "12345X",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['name', 'email', 'date']);",
+									"});",
+									"",
+									"pm.test(\"New user name ok\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Admin Account\");",
+									"});",
+									"",
+									"pm.test(\"New user email ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"admin@usertests.com\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin Account",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "Create a test user "
+					},
+					"response": []
+				},
+				{
+					"name": "Register duplicate user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email exists message ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"Email already exists\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Admin Account",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login no data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['email', 'password']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"Email required message ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"Email field is required\");",
+									"});",
+									"",
+									"pm.test(\"Password required message ok\", function () {",
+									"    pm.expect(jsonData.password).to.eql(\"Password field is required\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login bad email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"All expected fields returned\", function () {",
+									"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('email');",
+									"});",
+									"",
+									"pm.test(\"Email invalid message ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"Email is invalid\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "nonsense",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login user does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"All expected fields returned\", function () {",
+									"    pm.expect(jsonData).to.be.an('object').that.has.all.keys('email');",
+									"});",
+									"",
+									"pm.test(\"User not found message ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"User not found\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "thisuserdoesnotexist@fun.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "thisuserdoesnotexist",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login password wrong",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['password']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"User not found message ok\", function () {",
+									"    pm.expect(jsonData.password).to.eql(\"Password incorrect\");",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "thisIsABadPassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['success', 'token']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"Login successful\", function () {",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"",
+									"});",
+									"",
+									"// Save the token",
+									"pm.environment.set(\"adminToken\", jsonData.token);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"pm.test(\"response is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Unauthorized\", function () {",
+									"    pm.expect(pm.response.text()).to.eql(\"Unauthorized\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/current",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"current"
+							]
+						},
+						"description": "attempt to get the current user without a token.\nShould return \"UNAUTHORIZED\""
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['id', 'name', 'email']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"Ccurrent user is Admin\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Admin Account\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Current user email is correct\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"admin@usertests.com\");",
+									"",
+									"});",
+									"",
+									"",
+									"// Save the user ID",
+									"pm.environment.set(\"adminUserId\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/current",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user no token nor id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6ad148ba-45d9-4cbc-98b9-919a02349fcf",
+								"exec": [
+									"pm.test(\"response is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Cannot delete without param\", function () {",
+									"    pm.expect(pm.response.text()).to.have.string(\"Cannot DELETE /api/users\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Attempt to delete a user without an auth token nor a user id param"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user no id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ba0477a7-a770-4a47-8d31-9d5884cf0034",
+								"exec": [
+									"pm.test(\"response is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Cannot delete without param\", function () {",
+									"    pm.expect(pm.response.text()).to.have.string(\"Cannot DELETE /api/users\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{adminToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Attempt to delete a user without a user id param, but with the auth token supplied"
+					},
+					"response": []
+				},
+				{
+					"name": "Register User Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['name', 'email', 'date']);",
+									"});",
+									"",
+									"pm.test(\"New user name ok\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Test Account\");",
+									"});",
+									"",
+									"pm.test(\"New user email ok\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"test@usertests.com\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Test Account",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "password2",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "Create a test user "
+					},
+					"response": []
+				},
+				{
+					"name": "Login test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['success', 'token']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"Login successful\", function () {",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"",
+									"});",
+									"",
+									"// Save the token",
+									"pm.environment.set(\"testToken\", jsonData.token);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@usertests.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55adb39f-e1ba-4b97-9b94-8c35d40e293d",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['id', 'name', 'email']",
+									"    );",
+									"});",
+									"",
+									"pm.test(\"Current user is Test\", function () {",
+									"    pm.expect(jsonData.name).to.eql(\"Test Account\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"Current user email is correct\", function () {",
+									"    pm.expect(jsonData.email).to.eql(\"test@usertests.com\");",
+									"",
+									"});",
+									"",
+									"// Save the user ID",
+									"pm.environment.set(\"testUserId\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{testToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/users/current",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user wrong token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "710a0bb5-a899-4cf4-9ab4-b517064de47f",
+								"exec": [
+									"pm.test(\"response is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Unauthorized delete\", function () {",
+									"    pm.expect(pm.response.text()).to.eql(\"Unauthorized\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{testToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/{{adminUserId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{adminUserId}}"
+							]
+						},
+						"description": "Attempt to delete a user with a different id than the one supplied by the token"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Test user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "147aefbc-ba1a-4bea-92ca-758ba3997b43",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['success']",
+									"    );",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{testToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/{{testUserId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{testUserId}}"
+							]
+						},
+						"description": "Delete the Test user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Admin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "147aefbc-ba1a-4bea-92ca-758ba3997b43",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"response is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Only expected fields returned\", function () {",
+									"    var keys = Object.keys(jsonData);",
+									"    pm.expect(keys).to.eql(['success']",
+									"    );",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "{{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/users/{{adminUserId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{adminUserId}}"
+							]
+						},
+						"description": "Delete the Test user"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6715019d-8821-4b2c-8bb0-7957bc307af1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ee2ebd8d-5e50-4e6e-b99d-1869619046d1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
